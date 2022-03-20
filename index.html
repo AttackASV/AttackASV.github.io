@@ -1,0 +1,1017 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta name="google-site-verification" content="ftFOlJETX-2KNjaPh8W6s8lhigItRuu9fOmjHZZ0nY0" />
+		<!-- Required meta tags -->
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<title>Imperceptible Black-box Waveform-level Adversarial Attack Towards Automatic Speaker Recognition</title>
+	</head>
+	<style type="text/css">
+		table {
+			width: 100%;
+			table-layout: fixed;
+		}
+
+		audio {
+			width: 60%;
+		}
+
+		thead>tr>th:first-child {
+			width: 96px;
+		}
+
+		@media (max-width: 767px) {
+			.big-screen {
+				display: none;
+			}
+		}
+
+		@media (min-width: 767px) {
+			.small-screen {
+				display: none;
+			}
+		}
+	</style>
+
+	<body>
+		<header class="header">
+			<div class="jumbotron bg-secondary text-center">
+				<div class="container">
+					<div class="row align-items-center">
+						<div class="col-md-12">
+							<h1><a class="text-light" href="">Imperceptible Black-box Waveform-level Adversarial Attack
+									Towards Automatic Speaker Recognition</a></h1>
+							<p>
+								<!-- <div class="row">
+								<div class="col-md col-sm-12"><a class="text-light" href=""></a> </div>
+								<div class="col-md col-sm-12"><a class="text-light"
+										href="https"></a> </div>
+								<div class="col-md col-sm-12"><a class="text-light"
+										href="https">
+										</a> </div>
+								<div class="col-md col-sm-12"><a class="text-light"
+										href="http"></a> </div>
+								<div class="col-md col-sm-12"><a class="text-light" href=""></a> </div>
+							</div>
+							</p>
+							<p><a class="text-light" href="http"><br>
+									</p>
+							</a> -->
+						</div>
+					</div>
+				</div>
+			</div>
+		</header>
+		<main>
+			<div class="container">
+				<div class="row" id="intro">
+					<div class="col">
+						<h2>Abstract</h2>
+						<div>
+							<p> Automatic speaker recognition is an important biometric authentication approach with
+								emerging applications. However, recent research has shown its vulnerability on
+								adversarial attacks. In this paper, we propose a new type of adversarial examples by
+								generating imperceptible adversarial samples for targeted attacks on black-box systems
+								of automatic speaker recognition. Waveform samples are created directly by solving an
+								optimization problem with waveform inputs and outputs, which is more realistic in
+								real-life scenario. Inspired by auditory masking, a regularization term adapting to the
+								energy of speech waveform is proposed for generating imperceptible adversarial
+								perturbations. The optimization problems are subsequently solved by differential
+								evolution algorithm in a black-box manner which does not require any knowledge on the
+								inner configuration of the recognition systems. Experiments conducted on commonly used
+								datasets, LibriSpeech and VoxCeleb, show that the proposed methods have successfully
+								performed targeted attacks on state-of-the-art speaker recognition systems while being
+								imperceptible to human listeners. Given the high SNR and PESQ scores of the yielded
+								adversarial samples, the proposed methods deteriorate less on the quality of the
+								original signals than several recently proposed methods, which justifies the
+								imperceptibility of adversarial samples.</p>
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="row" id="monolingual">
+					<div class="col">
+						<h2>Proposed Method</h2>
+						<div>
+							<p> In this paper, we consider the attacking scenario depicted in Fig.1. The adversarial
+								attacking takes the following steps. An attacker firstly has the source voice. An
+								adversarial learning algorithm subsequently generates a perturbation signal based on the
+								source voice and adds them together to obtain an adversarial voice. Human listener
+								cannot tell the difference between the source voice and the adversarial one. However,
+								the speaker recognition model will be fooled to recognize the adversarial voice as from
+								speaker A in miscellaneous tasks. This characteristic of adversarial examples can be
+								utilized to protect privacy from being identified by unknown deployed speaker
+								recognition systems. In addition, it prevents our voiceprint features from being
+								collected maliciously. A feasible method for crafting an adversarial example is adding a
+								tiny amount of well-tuned additive perturbation on the source voice to fool speaker
+								recognition. There are generally two kinds of attacks according to how to fool speaker
+								recognition. One is untargeted attack, in which speaker recognition fails to identify
+								the correct identity of the modified voice. The other is targeted attack, in which
+								speaker recognition recognizes the identity of an adversarial sample as the specific
+								speaker. A key property of a successful adversarial attack is the difference between the
+								adversarial sample and the source one should be imperceptible to human perception. In
+								this paper, inspired by auditory masking, we will improve the imperceptibility of
+								adversarial samples by constraining both the amounts and the amplitudes of the
+								adversarial perturbations. The less the prior knowledge required by an attack, the
+								easier the attack conducted in practical usage. Given the assumption that an attacker
+								does not have any knowledge on the inner configuration of the recognition systems, we
+								focus on the black-box adversarial attack in this paper where an attacker can at most
+								access the decision results or the scores of predictions. In this paper we make
+								adversarial audio samples by only modifying partial points of an utterance. Given the
+								fact that excessive large amplitudes in audio samples would produce harsh noises,
+								constraints on the amplitudes of adversarial samples will be considered in our methods.
+								In this paper, we generate adversarial perturbations directly on waveform-level (and not
+								on the spectrogram) to yield high-quality samples for attacking, which is more realistic
+								in real-life scenarios. There are three typical tasks for automatic speaker recognition,
+								say open-set identification (OSI) [1], close-set identification (CSI) [2] and automatic
+								speaker verification (ASV) [3]. In this paper, we comprehensively study targeted
+								adversarial attacks towards all these three tasks within the proposed framework.
+							</p>
+							<img id="img1" src="skih/images/framework.png" class="img-fluid" style="width:100%"
+								alt="generation of adversarial examples based on frequency masking">
+							<figcaption class="figure-caption text-center">
+								<p></p>
+								Figure1: The attacking scenario of our work.
+						</div>
+					</div>
+				</div>
+				<hr>
+				<div class="row" id="result">
+					<div class="col-md-12">
+						<h2>Speech Samples</h2>
+						<!-- <p>The adversarial examples are generated from wave of two database:
+						<p>
+						<p style="text-indent:2em"><a class="text-success"
+								href="https://www.openslr.org/33/">Aishell-1</a>.</p>
+						<p>
+						<p style="text-indent:2em"><a class="text-success" href="https://www.openslr.org/17/">The music
+								portion of MUSAN</a>.</p>
+						<p>
+						<p>
+						<p>We present the adversarial examples generated based on different approaches:</p>
+						<p style="text-indent:2em">Attack Stage1: L_p norm based approach.</p>
+						<p style="text-indent:2em">Attack Stage2 : frequency masking based appraoch.</p>
+						<p></a>
+						<p>
+						<p></p> -->
+						<h3><small></h3>
+						<h4><small><b>Original &rarr; Adversarial</b></small></h4>
+						<!-- 1 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：61 Predict label：61）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：5105）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 1</th>
+										<td>
+											<audio controls>
+												<source src="audio/61-70968-0000.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/61-70968-0000_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 2 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：61 Predict label：61）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：3729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 2</th>
+										<td>
+											<audio controls>
+												<source src="audio/61-70968-0001.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/61-70968-0001_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 3 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：61 Predict label：61）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：4446）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 3</th>
+										<td>
+											<audio controls>
+												<source src="audio/61-70968-0002.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/61-70968-0002_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 4 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：61 Predict label：61）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：7021）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 4</th>
+										<td>
+											<audio controls>
+												<source src="audio/61-70968-0003.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/61-70968-0003_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 5 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：237 Predict label：237）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：5105）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 5</th>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0000.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0000_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 6 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：237 Predict label：237）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：3729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 6</th>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0001.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0001_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 7 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：237 Predict label：237）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：3729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 7</th>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0001.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0001_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 8 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：237 Predict label：237）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：4446）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 8</th>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0002.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0002_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 9 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：237 Predict label：237）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：7021）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 9</th>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0003.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0003_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						
+						<!-- 10 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：237 Predict label：237）</th>
+										<th>Adversarial <br />（Original label：61 Predict label：7729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 10</th>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0004.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/237-126133-0004_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 11 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：260 Predict label：260）</th>
+										<th>Adversarial <br />（Original label：260 Predict label：5105）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 11</th>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0000.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0000_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 12 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：260 Predict label：260）</th>
+										<th>Adversarial <br />（Original label：260 Predict label：3729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 12</th>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0001.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0001_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 13 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：260 Predict label：260）</th>
+										<th>Adversarial <br />（Original label：260 Predict label：4446）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 13</th>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0002.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0002_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 14 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：260 Predict label：260）</th>
+										<th>Adversarial <br />（Original label：260 Predict label：7021）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 14</th>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0003.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0003_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 15 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：260 Predict label：260）</th>
+										<th>Adversarial <br />（Original label：260 Predict label：7729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 15</th>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0004.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/260-123286-0004_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 16 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：1580 Predict label：1580）</th>
+										<th>Adversarial <br />（Original label：1580 Predict label：5105）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 16</th>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0000.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0000_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 17 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：1580 Predict label：1580）</th>
+										<th>Adversarial <br />（Original label：1580 Predict label：3729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 17</th>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0001.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0001_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 18 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：1580 Predict label：1580）</th>
+										<th>Adversarial <br />（Original label：1580 Predict label：4446）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 18</th>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0002.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0002_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 19 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：1580 Predict label：1580）</th>
+										<th>Adversarial <br />（Original label：1580 Predict label：7021）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 19</th>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0003.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0003_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 20 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：1580 Predict label：1580）</th>
+										<th>Adversarial <br />（Original label：1580 Predict label：7729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 20</th>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0004.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/1580-141083-0004_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 21 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：2830 Predict label：2830）</th>
+										<th>Adversarial <br />（Original label：2830 Predict label：5105）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 21</th>
+										<td>
+											<audio controls>
+												<source src="audio/2830-3979-0000.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/2830-3979-0000_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 22 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：2830 Predict label：2830）</th>
+										<th>Adversarial <br />（Original label：2830 Predict label：3729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 22</th>
+										<td>
+											<audio controls>
+												<source src="audio/2830-3979-0001.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/2830-3979-0001_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<!-- 23 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：2830 Predict label：2830）</th>
+										<th>Adversarial <br />（Original label：2830 Predict label：4446）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 23</th>
+										<td>
+											<audio controls>
+												<source src="audio/2830-3979-0002.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/2830-3979-0002_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+							<!-- 24 -->
+							<div class="big-screen">
+								<table class="table">
+									<thead>
+										<tr>
+											<th></th>
+											<th>Original <br />（Original label：2830 Predict label：2830） </th>
+											<th>Adversarial <br />（Original label：2830 Predict label：7021）</th>
+											
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th scope="row">Sample 24</th>
+											<td>
+												<audio controls>
+													<source src="audio/2830-3979-0003.wav" type="audio/wav" />
+													Your browser does not support the audio element.
+												</audio>
+											</td>
+											<td>
+												<audio controls>
+													<source src="audio/2830-3979-0003_adv.wav" type="audio/wav" />
+													Your browser does not support the audio element.
+												</audio>
+											</td>
+											
+										</tr>
+									</tbody>
+								</table>
+							</div>
+						<!-- 25 -->
+						<div class="big-screen">
+							<table class="table">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Original <br />（Original label：2830 Predict label：2830） </th>
+										<th>Adversarial <br />（Original label：2830 Predict label：7729）</th>
+										
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<th scope="row">Sample 25</th>
+										<td>
+											<audio controls>
+												<source src="audio/2830-3979-0004.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										<td>
+											<audio controls>
+												<source src="audio/2830-3979-0004_adv.wav" type="audio/wav" />
+												Your browser does not support the audio element.
+											</audio>
+										</td>
+										
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					
+
+
+					</div>
+				</div>
+				<hr>
+				<div class="row" id="ref">
+					<div class="col">
+						<h2>References</h2>
+						<div>
+							<!-- <p>
+								<a name="2">[2]</a>
+								Yao Qin, Nicholas Carlini, Ian Goodfellow, Garrison Cottrell, Colin Raffel, <a
+									class="text-success" href="https://arxiv.org/pdf/1903.10346.pdf">“Imperceptible,
+									Robust, and Targeted Adversarial Examples for Automatic Speech Recognition</a>,” in
+								<em>Proceedings of ICML, 2019, pp. 5231–5240.</em>
+							</p> -->
+							<p>
+								<a name="1">[1]</a>
+								K. Wilkinghoff. "On Open-Set Speaker Identification with I-Vectors. " in Proc. Odyssey
+								2020 The Speaker and Language Recognition Workshop, Tokyo, Japan, May 2020, pp. 408-414.
+							</p>
+							<p>
+								<a name="2">[2]</a>
+								T. Liu and S. Guan. "Factor Analysis Method for Text-Independent Speaker
+								Identification." Journal of Software (JSW), vol.9, no.11, pp.2851-2860, Nov. 2014.
+							</p>
+							<p>
+								<a name="3">[3]</a>
+								D. Snyder, D. Garcia-Romero, D. Povey and S. Khudanpur. "Deep Neural Network Embeddings
+								for Text-Independent Speaker Verification." in Proc. 2017 18th Annual Conference of the
+								International Speech Communication Association (INTERSPEECH), Stockholm, Sweden, Aug.
+								2017, pp. 999-1003.
+							</p>
+							<!-- <p>
+								<a name="4">[4]</a>
+								Yiqing LinWaleed H. Abdulla, <a class="text-success"
+									href="https://link.springer.com/chapter/10.1007/978-3-319-07974-5_2">“Principles of
+									Psychoacoustics</a>,” in <em>Audio Watermark, 2015, pp. 15–49.</em>
+							</p> -->
+						</div>
+					</div>
+				</div>
+				<hr>
+				<!-- <div class="row" id="contact">
+          <div class="col">
+            <h2>Contact</h2>
+            <div></div>
+          </div>
+        </div> -->
+			</div>
+		</main>
+		<footer class="bg-secondary text-light mt-4 pt-3 pb-2 ">
+			<div class="container">
+				<p class="text-center">
+					<small>
+						Imperceptible Black-box Waveform-level Adversarial Attack Towards Automatic Speaker Recognition
+						<br>
+						<a href="https" class="text-light"><strong></strong></a> |
+						
+					</small>
+				</p>
+			</div>
+		</footer>
+		<!-- Optional JavaScript -->
+		<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+		<script src="js/jquery-3.3.1.slim.min.js"
+			integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+		</script>
+		<script src="js/popper.min.js"
+			integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous">
+		</script>
+		<script src="js/bootstrap.min.js"
+			integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous">
+		</script>
+	</body>
+
+</html>
